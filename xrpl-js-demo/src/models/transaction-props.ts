@@ -1,11 +1,12 @@
-import { NFTokenCreateOffer, NFTokenCreateOfferFlags, Transaction } from "xrpl"
+import { NFTokenCreateOffer, NFTokenCreateOfferFlags, SubmittableTransaction, Wallet } from "xrpl"
 import { TxnOptions } from "./txn-options"
 
 export type TransactionPropsForMultiSign = TxnOptions & {
   isMultisign: true
+  wallet?: never
 }
 
-export type TransactionPropsForSingleSign<T extends Transaction> = TxnOptions & {
+export type TransactionPropsForSingleSign<T extends SubmittableTransaction> = TxnOptions & {
   isMultisign?: false
   txn: T extends NFTokenCreateOffer
     ? Omit<T, "TransactionType" | "Account"> &
@@ -14,4 +15,5 @@ export type TransactionPropsForSingleSign<T extends Transaction> = TxnOptions & 
           | { Flags?: undefined; Owner: string }
         )
     : Omit<T, "TransactionType" | "Account">
+  wallet: Wallet
 }

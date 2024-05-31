@@ -1,5 +1,5 @@
 import { Payment, xrpToDrops } from "xrpl"
-import { convertCurrencyCodeToHex, isString } from "../helpers"
+import { convertCurrencyCodeToHex, isString, multiSignAndSubmit } from "../helpers"
 import { TransactionPropsForMultiSign, TransactionPropsForSingleSign } from "../models"
 
 type SendPaymentProps = TransactionPropsForMultiSign | TransactionPropsForSingleSign<Payment>
@@ -8,7 +8,7 @@ export const sendPayment = async (props: SendPaymentProps) => {
   console.log("LET'S SEND A PAYMENT")
 
   if (props.isMultisign) {
-    // handle multi sign
+    multiSignAndSubmit(props.signatures, props.client)
   } else {
     const { wallet, client, txn } = props
     let { Amount, ...rest } = txn

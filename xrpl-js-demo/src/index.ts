@@ -17,10 +17,12 @@ const main = async () => {
   //     txn: {
   //       Destination: WALLET_2.address,
   //       Amount: "0.12",
-  //       Memos: [memos],
+  //       // Memos: [memos],
   //     },
   //     wallet: WALLET_1,
   //     client,
+  //     isMultisign: false,
+  //     // signatures: [],
   //     // showLogs: true,
   //   })
 
