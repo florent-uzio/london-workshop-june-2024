@@ -1,0 +1,34 @@
+import { hexToString, stringToHex } from "@xrplf/isomorphic/utils"
+
+// https://xrpl.org/currency-formats.html#nonstandard-currency-codes
+const NON_STANDARD_CODE_LENGTH = 40
+
+/**
+ * Converts a human readable currency code to hexadecimal.
+ * If the currency has 3 characters (XRP, EUR, USD...) then return immediately this currency code.
+ * If the currency has more than 3 characters, then encode it to the XRP ledger format.
+ * Example: USDM will become 5553444D00000000000000000000000000000000
+ *
+ * @param currencyCode The currency code to potentially encode to the XRP ledger format.
+ * @returns A {@link string}
+ */
+export const convertCurrencyCodeToHex = (currencyCode: string) => {
+  if (currencyCode.length > 3) {
+    return stringToHex(currencyCode).padEnd(NON_STANDARD_CODE_LENGTH, "0")
+  }
+  return currencyCode
+}
+
+/**
+ * Helper to correctly display the currency code if its length is more than 3.
+ * Example: 5553444D00000000000000000000000000000000 will become USDM
+ *
+ * @param currencyCode The currency code to potentially format correctly.
+ * @returns A {@link String} representing the currency code readable by a human.
+ */
+export const convertHexCurrencyCodeToString = (currencyCode: string) => {
+  if (currencyCode.length === NON_STANDARD_CODE_LENGTH) {
+    return hexToString(currencyCode)
+  }
+  return currencyCode
+}

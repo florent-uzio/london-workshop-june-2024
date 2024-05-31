@@ -18,6 +18,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@xrplf/isomorphic": "^1.0.0",
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "five-bells-condition": "^5.0.1",
