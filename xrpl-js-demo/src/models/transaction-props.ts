@@ -9,11 +9,11 @@ export type TransactionPropsForMultiSign = TxnOptions & {
 export type TransactionPropsForSingleSign<T extends SubmittableTransaction> = TxnOptions & {
   isMultisign?: false
   txn: T extends NFTokenCreateOffer
-    ? Omit<T, "TransactionType" | "Account"> &
+    ? T &
         (
           | { Flags: NFTokenCreateOfferFlags.tfSellNFToken; Owner?: never }
           | { Flags?: undefined; Owner: string }
         )
-    : Omit<T, "TransactionType" | "Account">
+    : T
   wallet: Wallet
 }

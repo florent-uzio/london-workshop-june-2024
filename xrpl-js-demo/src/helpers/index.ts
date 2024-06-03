@@ -1,4 +1,5 @@
 export * from "./currency-code.helpers"
+export * from "./deep-replace.helpers"
 export * from "./escrow-conditions"
 export * from "./multi-sign"
 export * from "./type-utils"
