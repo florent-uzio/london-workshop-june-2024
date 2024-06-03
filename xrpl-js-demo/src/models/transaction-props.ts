@@ -1,12 +1,21 @@
-import { NFTokenCreateOffer, NFTokenCreateOfferFlags, SubmittableTransaction, Wallet } from "xrpl"
-import { TxnOptions } from "./txn-options"
+import {
+  Client,
+  NFTokenCreateOffer,
+  NFTokenCreateOfferFlags,
+  SubmittableTransaction,
+  Wallet,
+} from "xrpl"
 
-export type TransactionPropsForMultiSign = TxnOptions & {
+export type TxnCommons = { client: Client; showLogs?: boolean } & (
+  | { isMultisign?: true; signatures: string[] }
+  | { isMultisign?: false; signatures?: never }
+)
+
+export type TransactionPropsForMultiSign = TxnCommons & {
   isMultisign: true
-  wallet?: never
 }
 
-export type TransactionPropsForSingleSign<T extends SubmittableTransaction> = TxnOptions & {
+export type TransactionPropsForSingleSign<T extends SubmittableTransaction> = TxnCommons & {
   isMultisign?: false
   txn: T extends NFTokenCreateOffer
     ? T &

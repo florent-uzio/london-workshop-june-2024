@@ -2,33 +2,37 @@ import { SubmittableTransaction } from "xrpl"
 import { convertCurrencyCodeToHex, deepReplace, multiSignAndSubmit } from "../helpers"
 import { TransactionPropsForMultiSign, TransactionPropsForSingleSign } from "../models"
 
-type SendTransactionProps<T extends SubmittableTransaction> =
+type SubmitTxnAndWaitProps<T extends SubmittableTransaction> =
   | TransactionPropsForMultiSign
   | TransactionPropsForSingleSign<T>
 
-export const sendTransaction = async <T extends SubmittableTransaction>(
-  props: SendTransactionProps<T>,
+export const submitTxnAndWait = async <T extends SubmittableTransaction>(
+  props: SubmitTxnAndWaitProps<T>,
 ) => {
-  console.log("LET'S SEND A TXN")
-
   if (props.isMultisign) {
     multiSignAndSubmit(props.signatures, props.client)
   } else {
-    const { wallet, client, txn } = props
+    const { wallet, client, txn, showLogs = true } = props
 
+    console.log(`LET'S SEND A ${txn.TransactionType}`)
+    console.log()
+
+    // Make sure the originating transaction address is the same as the wallet public address
     if (props.txn.Account !== wallet.address) {
       throw new Error("Field 'Account' must have the same address as the Wallet")
     }
 
+    // Update the currency in case it has more than 3 characters
     const updatedTxn = deepReplace(txn, "currency", (_, value) => {
       return convertCurrencyCodeToHex(value)
     })
 
-    console.log(JSON.stringify(updatedTxn, null, 2))
-
+    // Submit to the XRPL and wait for the response
     const response = await client.submitAndWait(updatedTxn, { autofill: true, wallet })
 
-    console.log(JSON.stringify(response, null, 2))
+    if (showLogs) {
+      console.log(JSON.stringify(response, null, 2))
+    }
 
     return response
   }

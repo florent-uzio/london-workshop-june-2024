@@ -1,6 +1,3 @@
-// export const convertCurrency = <T extends Record<string, unknown>>(txn: T) => {
-//   const keys = keysOf(txn)
-
 import { isObject, isUndefined } from "./typeof-fns"
 
 type replacementFn = (key: string, value: any) => string
