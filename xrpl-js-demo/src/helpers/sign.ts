@@ -1,8 +1,8 @@
 import { SubmittableTransaction, Transaction, Wallet } from "xrpl"
-import { TxnOptions } from "../models"
+import { TxnCommons } from "../models"
 
 type SignProps = {
-  params: Omit<TxnOptions, "signatures">
+  params: Omit<TxnCommons, "signatures">
   signers: number
   txn: SubmittableTransaction
   wallet: Wallet

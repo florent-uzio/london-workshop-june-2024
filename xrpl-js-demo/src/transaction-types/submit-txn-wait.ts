@@ -10,7 +10,7 @@ export const submitTxnAndWait = async <T extends SubmittableTransaction>(
   props: SubmitTxnAndWaitProps<T>,
 ) => {
   if (props.isMultisign) {
-    multiSignAndSubmit(props.signatures, props.client)
+    await multiSignAndSubmit(props.signatures, props.client)
   } else {
     const { wallet, client, txn, showLogs = true } = props
 

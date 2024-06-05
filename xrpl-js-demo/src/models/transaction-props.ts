@@ -1,5 +1,6 @@
 import {
   Client,
+  EscrowCreate,
   NFTokenCreateOffer,
   NFTokenCreateOfferFlags,
   SubmittableTransaction,
@@ -23,6 +24,18 @@ export type TransactionPropsForSingleSign<T extends SubmittableTransaction> = Tx
           | { Flags: NFTokenCreateOfferFlags.tfSellNFToken; Owner?: never }
           | { Flags?: undefined; Owner: string }
         )
-    : T
+    : T extends EscrowCreate
+      ? T &
+          (
+            | ({ CancelAfter: number } & (
+                | { FinishAfter: number; Condition?: string }
+                | { FinishAfter?: number; Condition: string }
+              ))
+            | ({ FinishAfter: number } & (
+                | { CancelAfter: number; Condition?: string }
+                | { CancelAfter?: number; Condition: string }
+              ))
+          )
+      : T
   wallet: Wallet
 }
