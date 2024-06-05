@@ -10,6 +10,6 @@ export const sendPayment = async (props: SendPaymentProps) => {
   if (props.isMultisign) {
     multiSignAndSubmit(props.signatures, props.client)
   } else {
-    // code to implement
+    // write code
   }
 }
