@@ -1,26 +1,13 @@
-import { Client } from "xrpl"
-import { networks } from "./networks"
-import { submitTxnAndWait } from "./transaction-types"
+import * as dotenv from "dotenv"
+
+dotenv.config()
+
+// Issued Currency that you want to use in your TrustSet or Payment transactions for example.
+// Create a TOKEN field in your .env file. If TOKEN is not present, it will default to "TEST_TOKEN".
+const { TOKEN = "TEST_TOKEN" } = process.env
 
 const main = async () => {
-  const client = new Client(networks.RIPPLE_TESTNET)
-
-  await client.connect()
-
-  await submitTxnAndWait({
-    // txn: {
-    //   Account: WALLET_2.address,
-    //   TransactionType: "NFTokenMint",
-    //   URI: stringToHex(""),
-    //   NFTokenTaxon: 0,
-    // },
-    // wallet: WALLET_2,
-    client,
-    signatures: [],
-    isMultisign: true,
-  })
-
-  await client.disconnect()
+  console.log("It works!")
 }
 
 main()
